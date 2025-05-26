@@ -27,13 +27,13 @@
     {
       "entityId": "uploadTab",
       "name": "파일 업로드",
-      "contentUrl": "https://teams-uploader-dih7hzt7b-brandons-projects-b1728501.vercel.app/",
-      "websiteUrl": "https://teams-uploader-dih7hzt7b-brandons-projects-b1728501.vercel.app/",
+      "contentUrl": "https://stellar-sopapillas-adb6a7.netlify.app/",
+      "websiteUrl": "https://stellar-sopapillas-adb6a7.netlify.app/",
       "scopes": ["team"]
     }
   ],
   "permissions": ["identity", "messageTeamMembers"],
   "validDomains": [
-    "teams-uploader-dih7hzt7b-brandons-projects-b1728501.vercel.app"
+    "stellar-sopapillas-adb6a7.netlify.app"
   ]
 }
