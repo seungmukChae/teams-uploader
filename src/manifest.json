@@ -1,0 +1,39 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.16/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.16",
+  "version": "1.0.0",
+  "id": "9b055389-0487-413b-a74d-4f2ce2fee875",
+  "packageName": "com.shints.teamsuploader",
+  "developer": {
+    "name": "SHINTS IT TEAM",
+    "websiteUrl": "https://www.shints.com",
+    "privacyUrl": "https://www.shints.com/privacy",
+    "termsOfUseUrl": "https://www.shints.com/terms"
+  },
+  "name": {
+    "short": "Teams Uploader",
+    "full": "Guest File Uploader for Teams"
+  },
+  "description": {
+    "short": "게스트 사용자를 위한 파일 업로드 도구",
+    "full": "이 앱은 게스트 사용자가 Teams 채널에 직접 파일을 업로드하고 공유 링크를 복사할 수 있도록 도와줍니다."
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "accentColor": "#6264A7",
+  "staticTabs": [
+    {
+      "entityId": "uploadTab",
+      "name": "파일 업로드",
+      "contentUrl": "https://teams-uploader-dih7hzt7b-brandons-projects-b1728501.vercel.app/",
+      "websiteUrl": "https://teams-uploader-dih7hzt7b-brandons-projects-b1728501.vercel.app/",
+      "scopes": ["team"]
+    }
+  ],
+  "permissions": ["identity", "messageTeamMembers"],
+  "validDomains": [
+    "teams-uploader-dih7hzt7b-brandons-projects-b1728501.vercel.app"
+  ]
+}
