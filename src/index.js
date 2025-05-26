@@ -1,15 +1,15 @@
 import { Buffer } from "buffer";
-window.Buffer = Buffer;
-
-
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 
-// MSAL 관련 코드 추가
+// MSAL 관련 코드
 import { PublicClientApplication } from "@azure/msal-browser";
 import { MsalProvider } from "@azure/msal-react";
 import { msalConfig } from "./authConfig";
+
+// Buffer 설정은 import 이후에 실행
+window.Buffer = Buffer;
 
 const msalInstance = new PublicClientApplication(msalConfig);
 
