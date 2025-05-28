@@ -6,10 +6,14 @@ export const msalConfig = {
     authority: "https://login.microsoftonline.com/shints2.onmicrosoft.com",
     redirectUri: isLocalhost
       ? "http://localhost:3000"
-      : "https://stellar-sopapillas-adb6a7.netlify.app", // ← 실제 배포 주소로 변경
+      : "https://stellar-sopapillas-adb6a7.netlify.app", // ← 실제 배포 주소
   },
   cache: {
     cacheLocation: "localStorage",
     storeAuthStateInCookie: false,
   },
+};
+
+export const loginRequest = {
+  scopes: ["User.Read", "Sites.ReadWrite.All"],
 };
