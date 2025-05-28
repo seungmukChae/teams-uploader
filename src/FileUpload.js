@@ -24,7 +24,7 @@ function FileUpload() {
 
         const profile = await getUserProfile(tokenResponse.accessToken);
 
-        console.log("사용자 유형:", profile.userType);
+        console.log("User type :", profile.userType);
         console.log("userPrincipalName:", profile.userPrincipalName);
 
         // ✅ userType이 없을 경우 userPrincipalName 기반으로 판단
@@ -44,7 +44,7 @@ function FileUpload() {
   }, [accounts, instance]);
 
   const confirmAndUpload = async (file) => {
-    if (!window.confirm(`📤 파일을 업로드하시겠습니까?\n"${file.name}"`)) return;
+    if (!window.confirm(`📤 Would you like to upload a file?\n"${file.name}"`)) return;
 
     try {
       const tokenResponse = await instance.acquireTokenSilent({
@@ -62,10 +62,10 @@ function FileUpload() {
       const shareUrl = await createShareLink(accessToken, siteId, driveId, itemId);
 
       await navigator.clipboard.writeText(shareUrl);
-      alert("✅ 업로드 완료! 링크가 복사되었습니다:\n" + shareUrl);
+      alert("✅ Upload complete! The link has been copied.:\n" + shareUrl);
     } catch (error) {
-      console.error("❌ 업로드 실패:", error);
-      alert("❌ 업로드 실패: " + (error.message || "unknown error"));
+      console.error("❌ Upload failed:", error);
+      alert("❌ Upload failed: " + (error.message || "unknown error"));
     }
   };
 
@@ -85,15 +85,15 @@ function FileUpload() {
   };
 
   // 🔄 사용자 정보 확인 중
-  if (isGuest === null) return <p>🔄 사용자 정보를 확인하는 중입니다...</p>;
+  if (isGuest === null) return <p>🔄 Checking user information...</p>;
 
   // ❌ 멤버는 제한
-  if (!isGuest) return <p>🙅 이 앱은 게스트 사용자 전용입니다.</p>;
+  if (!isGuest) return <p>🙅 This app is for guest users only.</p>;
 
   // ✅ 게스트는 업로드 UI 표시
   return (
     <div style={{ fontFamily: "Arial", padding: "20px" }}>
-      <h3>📂 파일 업로드 (게스트 전용)</h3>
+      <h3>📂 File Upload(Guest Only)</h3>
       <input type="file" onChange={handleFileChange} />
 
       <div
@@ -108,9 +108,9 @@ function FileUpload() {
       >
         <input {...getInputProps()} />
         {isDragActive ? (
-          <p>🔽 파일을 여기에 놓으세요...</p>
+          <p>🔽 Drop the file here...</p>
         ) : (
-          <p>또는 이 박스에 파일을 드래그하세요</p>
+          <p>Or drag the file into this box</p>
         )}
       </div>
     </div>

@@ -34,8 +34,8 @@ function App() {
     // Teams 탭 안에서 보일 화면
     return (
       <div style={{ padding: "40px", textAlign: "center" }}>
-        <h2>파일 업로드 도구 연결</h2>
-        <p>외부 브라우저에서 도구를 실행하려면 아래 버튼을 클릭하세요.</p>
+        <h2>Connect to File Upload Tool</h2>
+        <p>To run the tool in an external browser, please click the "OPEN" button below.</p>
         <button
           onClick={handleConnectClick}
           style={{
@@ -48,7 +48,7 @@ function App() {
             border: "none",
           }}
         >
-          🔗 연결
+          🔗 OPEN
         </button>
       </div>
     );
@@ -57,13 +57,14 @@ function App() {
   // 브라우저에서 열린 경우
   return (
     <div style={{ padding: "20px", fontFamily: "Arial" }}>
-      <h1>Microsoft 365 로그인 데모</h1>
+      <h1>File Upload Tool</h1>
+      <h3>Please log in using your Teams email address!</h3>
       {!isAuthenticated ? (
-        <button onClick={handleLogin}>🔐 Microsoft로 로그인</button>
+        <button onClick={handleLogin}>🔐 Sign in with Microsoft</button>
       ) : (
         <div>
-          <p>✅ 로그인됨: {accounts[0].username}</p>
-          <button onClick={handleLogout}>🚪 로그아웃</button>
+          <p>✅ Signed in: {accounts[0].username}</p>
+          <button onClick={handleLogout}>🚪 Signed out</button>
           <hr />
           <FileUpload />
         </div>
