@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.16/MicrosoftTeams.schema.json",
   "manifestVersion": "1.16",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "id": "9b055389-0487-413b-a74d-4f2ce2fee875",
   "packageName": "com.shints.teamsuploader",
   "developer": {
