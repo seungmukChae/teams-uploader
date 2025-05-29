@@ -44,9 +44,11 @@ export async function createShareLink(accessToken, siteId, driveId, itemId) {
   return response.link.webUrl;
 }
 
-// ✅ 바로 여기에 추가:
+// ✅ 사용자 프로필 함수 (department 포함)
 export async function getUserProfile(accessToken) {
   const client = getGraphClient(accessToken);
-  const profile = await client.api("/me").get();
+  const profile = await client.api("/me")
+  .api("/me?$select=displayName,department,userPrincipalName,userType")  
+  .get();
   return profile;
 }
