@@ -48,8 +48,7 @@ export async function createShareLink(accessToken, siteId, driveId, itemId) {
 export async function getUserProfile(accessToken) {
   const client = getGraphClient(accessToken);
   const profile = await client
-  .api("/me")
-  .select("/me?$select=displayName,department,userPrincipalName,userType")  
+  .api("/me?$select=displayName,department,userPrincipalName,userType")  
   .get();
   return profile;
 }
