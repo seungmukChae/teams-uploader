@@ -120,8 +120,7 @@ function FileUpload() {
     <div style={{ fontFamily: "Arial", padding: "20px" }}>
       <h3>📂 File Upload (Guest Only)</h3>
       <p>!!!Your Profile Information!!!</p>
-      <p>👤 Name: {userInfo.displayName}</p>
-      <p>🏢 Department: {userInfo.department}</p>
+      <p>👤 Name: {userInfo.displayName} / 🏢 Department: {userInfo.department}</p>
 
       <input type="file" onChange={handleFileChange} />
 
