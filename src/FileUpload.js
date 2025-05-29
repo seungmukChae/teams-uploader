@@ -9,9 +9,12 @@ import {
 
 function FileUpload() {
   const { instance, accounts } = useMsal();
-  const [isGuest, setIsGuest] = useState(null); // null = 로딩 중
+  const [isGuest, setIsGuest] = useState(null);
+  const [userInfo, setUserInfo] = useState({
+    displayName: "",
+    department: "",
+  });
 
-  // ✅ 사용자 정보 가져와서 guest 여부 확인
   useEffect(() => {
     const checkGuest = async () => {
       if (!accounts.length) return;
@@ -24,27 +27,43 @@ function FileUpload() {
 
         const profile = await getUserProfile(tokenResponse.accessToken);
 
-        console.log("User type :", profile.userType);
-        console.log("userPrincipalName:", profile.userPrincipalName);
-
-        // ✅ userType이 없을 경우 userPrincipalName 기반으로 판단
         const guestCheck =
           profile.userType === "Guest" ||
           (profile.userPrincipalName &&
             profile.userPrincipalName.includes("#EXT#"));
 
         setIsGuest(guestCheck);
+        setUserInfo({
+          displayName: profile.displayName || "",
+          department: profile.department || "",
+        });
       } catch (err) {
-        console.error("사용자 정보 조회 실패", err);
-        setIsGuest(false); // 실패 시 멤버로 간주
+        console.error("Failed to retrieve user information", err);
+        setIsGuest(false);
       }
     };
 
     checkGuest();
   }, [accounts, instance]);
 
+  const getUploadTarget = (department) => {
+    if (department.startsWith("(ETP)")) {
+      return {
+        siteId: "shints2.sharepoint.com,e314b8ee-c9c5-4bbc-aefb-df51e648c21d,589ef99d-99fe-4fd7-8981-548305c668b4", // ← 실제 ETP 팀 siteId로 바꾸세요
+        folderName: "File_Upload(ETP_Guest)",
+      };
+    } else if (department.startsWith("(BVT)")) {
+      return {
+        siteId: "shints2.sharepoint.com,efc56264-28f5-41cc-923a-f9c2bc3ca33b,526ee517-fb8e-4849-8d98-6acc71e7a83d", // ← 실제 BVT 팀 siteId로 바꾸세요
+        folderName: "File_Upload(BVT_Guest)",
+      };
+    } else {
+      return null;
+    }
+  };
+
   const confirmAndUpload = async (file) => {
-    if (!window.confirm(`📤 Would you like to upload a file?\n"${file.name}"`)) return;
+    if (!window.confirm(`📤 Would you like to upload this file?\n"${file.name}"`)) return;
 
     try {
       const tokenResponse = await instance.acquireTokenSilent({
@@ -53,16 +72,26 @@ function FileUpload() {
       });
 
       const accessToken = tokenResponse.accessToken;
-      const siteId = "shints2.sharepoint.com,75e89ac8-c4f6-4dbf-85f1-e2834d4ac378,6f96a68c-60dd-4a22-b77c-e40f3d811e0b";
-      const folderName = "BVT_MD(TEST)";
 
-      const uploadResult = await uploadFileToTeamChannel(accessToken, siteId, folderName, file);
+      const target = getUploadTarget(userInfo.department);
+      if (!target) {
+        alert("❌ This department is not allowed to upload files.");
+        return;
+      }
+
+      const uploadResult = await uploadFileToTeamChannel(
+        accessToken,
+        target.siteId,
+        target.folderName,
+        file
+      );
+
       const driveId = uploadResult.parentReference.driveId;
       const itemId = uploadResult.id;
-      const shareUrl = await createShareLink(accessToken, siteId, driveId, itemId);
+      const shareUrl = await createShareLink(accessToken, target.siteId, driveId, itemId);
 
       await navigator.clipboard.writeText(shareUrl);
-      alert("✅ Upload complete! The link has been copied.:\n" + shareUrl);
+      alert("✅ Upload complete! The link has been copied:\n" + shareUrl);
     } catch (error) {
       console.error("❌ Upload failed:", error);
       alert("❌ Upload failed: " + (error.message || "unknown error"));
@@ -84,16 +113,16 @@ function FileUpload() {
     }
   };
 
-  // 🔄 사용자 정보 확인 중
   if (isGuest === null) return <p>🔄 Checking user information...</p>;
-
-  // ❌ 멤버는 제한
   if (!isGuest) return <p>🙅 This app is for guest users only.</p>;
 
-  // ✅ 게스트는 업로드 UI 표시
   return (
     <div style={{ fontFamily: "Arial", padding: "20px" }}>
-      <h3>📂 File Upload(Guest Only)</h3>
+      <h3>📂 File Upload (Guest Only)</h3>
+
+      <p>👤 Name: {userInfo.displayName}</p>
+      <p>🏢 Department: {userInfo.department}</p>
+
       <input type="file" onChange={handleFileChange} />
 
       <div
